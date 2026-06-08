@@ -1,0 +1,18 @@
+# To execute this playbook, please run the following command in the shell as
+# regular user:
+# $ ansible-playbook -i inventory.ini playbook.yml --ask-become-pass
+
+- name: Dependency installation
+  hosts: local
+  connection: local
+  become: true
+  become_method: sudo
+  tasks:
+    - name: Install the necessary dependencies
+      # Invoke the packages manager automatically, distro agnostic
+      ansible.builtin.package:
+        name:
+          - docker
+          - docker-compose
+          - docker-buildx
+        state: present
