@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login — Link Shortener</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <main>
+    <h1>Admin Login</h1>
+    <form class="form" method="post" action="{{ url_for('admin_login') }}">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus autocomplete="username"/>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password"/>
+      </div>
+      {% if error %}
+      <div class="alert alert-error">{{ error }}</div>
+      {% endif %}
+      <button type="submit">Login</button>
+    </form>
+    <p style="margin-top:1rem;text-align:center">
+      <a href="{{ url_for('home') }}" style="color:#6b7280;font-size:.9rem">← Back to home</a>
+    </p>
+  </main>
+</body>
+</html>

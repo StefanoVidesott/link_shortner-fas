@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Link Shortener</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body class="admin-body">
+
+  <header class="admin-header">
+    <span class="admin-header-title">Admin Panel</span>
+    <nav class="admin-header-nav">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('admin_logout') }}" class="btn-ghost-sm">Logout</a>
+    </nav>
+  </header>
+
+  <div class="admin-main">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <!-- Summary stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">{{ total }}</div>
+        <div class="stat-label">Total links</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{{ active }}</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{{ fake }}</div>
+        <div class="stat-label">Fake</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">{{ total_clicks }}</div>
+        <div class="stat-label">Total clicks</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-grid">
+
+      <div class="action-card">
+        <h3>Generate fake links</h3>
+        <p>Invia N <code>POST /shorten</code> HTTP come utente reale — popola <code>links_created_total</code> e i log Loki.</p>
+        <form method="post" action="{{ url_for('admin_generate_fake') }}" class="action-form">
+          <input type="number" name="count" value="10" min="1" max="100" class="num-input"/>
+          <button type="submit">Generate</button>
+        </form>
+      </div>
+
+      <div class="action-card">
+        <h3>Delete all fake links</h3>
+        <p>Elimina direttamente dal DB tutti i link con <code>is_fake=true</code>.</p>
+        <form method="post" action="{{ url_for('admin_delete_fake') }}" class="action-form">
+          <button type="submit" class="btn-danger">Delete fake ({{ fake }})</button>
+        </form>
+      </div>
+
+      <div class="action-card">
+        <h3>Simulate traffic</h3>
+        <p>Invia N <code>GET /&lt;code&gt;</code> HTTP — popola <code>links_redirected_total</code>, latency histogram e log Loki.</p>
+        <form method="post" action="{{ url_for('admin_simulate_traffic') }}" class="action-form">
+          <input type="number" name="count" value="20" min="1" max="500" class="num-input"/>
+          <button type="submit">Simulate visits</button>
+        </form>
+      </div>
+
+      <div class="action-card">
+        <h3>Simulate errors</h3>
+        <p>Invia N <code>GET /_error</code> HTTP — ogni richiesta produce un 500, visibile in Prometheus e Loki{% if urls.sentry %} e Sentry{% endif %}.</p>
+        <form method="post" action="{{ url_for('admin_simulate_errors') }}" class="action-form">
+          <input type="number" name="count" value="3" min="1" max="20" class="num-input"/>
+          <button type="submit" class="btn-warning">Simulate errors</button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Monitoring links -->
+    <h2 style="margin-bottom:.75rem">Monitoring</h2>
+    <div class="obs-cards" style="margin-bottom:1.5rem">
+      <a href="{{ urls.grafana }}" target="_blank" class="obs-card">
+        <div class="obs-title">Grafana</div>
+      </a>
+      <a href="{{ urls.prometheus }}" target="_blank" class="obs-card">
+        <div class="obs-title">Prometheus</div>
+      </a>
+      {% if urls.sentry %}
+      <a href="{{ urls.sentry }}" target="_blank" class="obs-card">
+        <div class="obs-title">Sentry</div>
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- Links table -->
+    <h2 style="margin-bottom:.75rem">Links</h2>
+    <div class="table-wrap">
+      <table class="links-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Original URL</th>
+            <th style="text-align:right">Clicks</th>
+            <th>Created</th>
+            <th>Expires</th>
+            <th>Type</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lnk in links %}
+          <tr class="{{ 'row-fake' if lnk.is_fake else '' }}">
+            <td>
+              <a href="{{ base_url }}/{{ lnk.short_code }}" target="_blank" class="code-link">
+                {{ lnk.short_code }}
+              </a>
+            </td>
+            <td class="url-cell" title="{{ lnk.original_url }}">{{ lnk.original_url }}</td>
+            <td style="text-align:right;font-variant-numeric:tabular-nums">{{ lnk.clicks }}</td>
+            <td class="mono">{{ lnk.created_at.strftime('%Y-%m-%d %H:%M') if lnk.created_at else '—' }}</td>
+            <td class="mono">{{ lnk.expires_at.strftime('%Y-%m-%d') if lnk.expires_at else '—' }}</td>
+            <td>
+              {% if lnk.is_fake %}
+                <span class="badge badge-fake">fake</span>
+              {% else %}
+                <span class="badge badge-real">real</span>
+              {% endif %}
+            </td>
+            <td>
+              <form method="post"
+                    action="{{ url_for('admin_delete_link', short_code=lnk.short_code) }}"
+                    onsubmit="return confirm('Delete /{{ lnk.short_code }}?')">
+                <button type="submit" class="btn-danger btn-sm">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="7" class="empty-row">No links yet — generate some fake ones to get started.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /admin-main -->
+</body>
+</html>
