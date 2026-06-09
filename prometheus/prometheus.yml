@@ -5,13 +5,13 @@ global:
 scrape_configs:
   - job_name: flask
     static_configs:
-      - targets: ['flask:5001']
+      - targets: ['flask:5000']
     metrics_path: /metrics
 
   - job_name: prometheus
     static_configs:
-      - targets: ['localhost:5003']
+      - targets: ['localhost:9090']
 
   - job_name: grafana
     static_configs:
-      - targets: ['grafana:5002']
+      - targets: ['grafana:3000']
