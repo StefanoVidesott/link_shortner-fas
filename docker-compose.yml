@@ -20,6 +20,8 @@ services:
       SECRET_KEY: ${SECRET_KEY:-}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      GRAFANA_URL: ${GRAFANA_URL:-}
+      PROMETHEUS_URL: ${PROMETHEUS:-}
       SENTRY_URL: ${SENTRY_URL:-}
     depends_on:
       mysql:
