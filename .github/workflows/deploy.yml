@@ -19,6 +19,9 @@ jobs:
       - name: Copy .env into workspace
         run: cp /home/deploy/link_shortner-fas/.env .env
 
+      - name: Stop stack
+        run: docker compose down
+
       - name: Build images
         run: docker compose build
 
