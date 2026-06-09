@@ -75,6 +75,8 @@ BASE_URL              = os.environ.get("BASE_URL", "http://localhost:5000")
 CLEANUP_INTERVAL_MINS = int(os.environ.get("CLEANUP_INTERVAL_MINUTES", "10"))
 ADMIN_USERNAME        = os.environ.get("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD        = os.environ.get("ADMIN_PASSWORD", "")
+GRAFANA_URL            = os.environ.get("GRAFANA_URL", "")
+PROMETHEUS_URL            = os.environ.get("PROMETHEUS_URL", "")
 SENTRY_URL            = os.environ.get("SENTRY_URL", "")
 
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
@@ -140,11 +142,9 @@ def _admin_required(f):
 
 # --- Observability URLs helper ---
 def _obs_urls():
-    parsed = urlparse(BASE_URL)
-    host = f"{parsed.scheme}://{parsed.hostname}"
     return {
-        "grafana":    f"{host}:3000",
-        "prometheus": f"{host}:9090",
+        "grafana":    GRAFANA_URL or None,
+        "prometheus": PROMETHEUS_URL or None,
         "sentry":     SENTRY_URL or ("https://sentry.io" if _sentry_dsn else None),
     }
 
