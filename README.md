@@ -8,13 +8,13 @@ A self-hosted link shortener with a full observability stack: structured logs, P
 
 | Service | Image | Port |
 |---|---|---|
-| Flask app | local build | 5000 |
+| Flask app | local build | 5001 |
 | MySQL 8 | `mysql:8` | — |
-| Prometheus | `prom/prometheus` | — |
-| Grafana | `grafana/grafana` | 3000 |
+| Prometheus | `prom/prometheus` | 5003 |
+| Grafana | `grafana/grafana` | 5002 |
 | Loki | `grafana/loki` | — |
 
-All services share a single Docker bridge network. Flask (5000) and Grafana (3000) are exposed on the host.
+All services share a single Docker bridge network. Flask (5001) and Grafana (5002) are exposed on the host.
 
 ## API
 
@@ -43,8 +43,8 @@ docker compose up -d
 ```
 
 After startup:
-- App: http://localhost:5000
-- Grafana: http://localhost:3000 (admin / `GRAFANA_ADMIN_PASSWORD` from `.env`)
+- App: http://localhost:5001
+- Grafana: http://localhost:5002 (admin / `GRAFANA_ADMIN_PASSWORD` from `.env`)
 
 ## Production deployment (Ansible)
 
