@@ -1,6 +1,6 @@
 services:
 
-  # ── Application ──────────────────────────────────────────────────────────────
+  # Application
   flask:
     build: ./flask
     restart: unless-stopped
@@ -48,7 +48,7 @@ services:
     networks:
       - app
 
-  # ── Observability ─────────────────────────────────────────────────────────────
+  # Observability
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped

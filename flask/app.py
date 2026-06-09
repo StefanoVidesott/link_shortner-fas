@@ -10,7 +10,6 @@ import urllib.error
 import concurrent.futures
 from datetime import datetime, timedelta
 from functools import wraps
-from urllib.parse import urlparse
 
 import mysql.connector
 from flask import (
@@ -21,7 +20,7 @@ from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTEN
 from pythonjsonlogger import jsonlogger
 from apscheduler.schedulers.background import BackgroundScheduler
 
-# --- Sentry (optional, only when SENTRY_DSN is set) ---
+# Sentry
 _sentry_dsn = os.environ.get("SENTRY_DSN")
 if _sentry_dsn:
     import sentry_sdk
@@ -34,7 +33,7 @@ if _sentry_dsn:
 
 app = Flask(__name__)
 
-# --- Structured JSON logging ---
+# JSON logging
 _handler = logging.StreamHandler()
 _handler.setFormatter(
     jsonlogger.JsonFormatter("%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -44,7 +43,7 @@ _log.addHandler(_handler)
 _log.setLevel(logging.INFO)
 logging.getLogger("werkzeug").setLevel(logging.WARNING)
 
-# --- Prometheus metrics ---
+# Prometheus metrics
 http_requests_total = Counter(
     "http_requests_total",
     "Total HTTP requests",
@@ -62,7 +61,7 @@ last_cleanup_success_timestamp_seconds = Gauge(
     "Unix timestamp of last successful cleanup run",
 )
 
-# --- Config ---
+# Config
 DB_CONFIG = {
     "host":     os.environ.get("MYSQL_HOST", "mysql"),
     "port":     int(os.environ.get("MYSQL_PORT", "3306")),
@@ -70,19 +69,19 @@ DB_CONFIG = {
     "password": os.environ.get("MYSQL_PASSWORD", ""),
     "database": os.environ.get("MYSQL_DATABASE", "linkshortener"),
 }
-LINK_TTL_DAYS         = int(os.environ.get("LINK_TTL_DAYS", "30"))
-BASE_URL              = os.environ.get("BASE_URL", "http://localhost:5000")
+LINK_TTL_DAYS = int(os.environ.get("LINK_TTL_DAYS", "30"))
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:5001")
 CLEANUP_INTERVAL_MINS = int(os.environ.get("CLEANUP_INTERVAL_MINUTES", "10"))
-ADMIN_USERNAME        = os.environ.get("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD        = os.environ.get("ADMIN_PASSWORD", "")
-GRAFANA_URL            = os.environ.get("GRAFANA_URL", "")
-PROMETHEUS_URL            = os.environ.get("PROMETHEUS_URL", "")
-SENTRY_URL            = os.environ.get("SENTRY_URL", "")
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
+GRAFANA_URL = os.environ.get("GRAFANA_URL", "")
+PROMETHEUS_URL = os.environ.get("PROMETHEUS_URL", "")
+SENTRY_URL = os.environ.get("SENTRY_URL", "")
 
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 
 
-# --- DB helpers ---
+# DB helpers
 def get_db():
     if "db" not in g:
         g.db = mysql.connector.connect(**DB_CONFIG)
@@ -110,19 +109,12 @@ def init_db():
             is_fake      BOOLEAN      DEFAULT FALSE
         )
     """)
-    # Migration: add is_fake to tables created before this column existed
-    cur.execute("""
-        SELECT COUNT(*) FROM information_schema.COLUMNS
-        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'links' AND COLUMN_NAME = 'is_fake'
-    """)
-    if cur.fetchone()[0] == 0:
-        cur.execute("ALTER TABLE links ADD COLUMN is_fake BOOLEAN DEFAULT FALSE")
     conn.commit()
     cur.close()
     conn.close()
 
 
-# --- Short code generation ---
+# Short code generation
 _CODE_CHARS = string.ascii_letters + string.digits
 
 
@@ -130,7 +122,7 @@ def _gen_code(length: int = 6) -> str:
     return "".join(random.choices(_CODE_CHARS, k=length))
 
 
-# --- Admin auth ---
+# Admin auth
 def _admin_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -140,16 +132,16 @@ def _admin_required(f):
     return decorated
 
 
-# --- Observability URLs helper ---
+# Observability URLs helper
 def _obs_urls():
     return {
         "grafana":    GRAFANA_URL or None,
         "prometheus": PROMETHEUS_URL or None,
-        "sentry":     SENTRY_URL or ("https://sentry.io" if _sentry_dsn else None),
+        "sentry":     SENTRY_URL or None,
     }
 
 
-# --- Request hooks: auto-instrument all routes ---
+# Request hooks: auto-instrument all routes
 @app.before_request
 def _before():
     g.t0 = time.perf_counter()
@@ -180,7 +172,7 @@ def _after(response):
     return response
 
 
-# ── Public routes ─────────────────────────────────────────────────────────────
+# Public routes
 
 @app.route("/")
 def home():
@@ -298,7 +290,7 @@ def metrics():
     return generate_latest(), 200, {"Content-Type": CONTENT_TYPE_LATEST}
 
 
-# ── Admin auth ────────────────────────────────────────────────────────────────
+# Admin auth
 
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
@@ -328,7 +320,7 @@ def admin_logout():
     return redirect(url_for("home"))
 
 
-# ── Admin dashboard ───────────────────────────────────────────────────────────
+# Admin dashboard
 
 @app.route("/admin")
 @_admin_required
@@ -375,12 +367,8 @@ def admin_delete_link(short_code):
     return redirect(url_for("admin_dashboard"))
 
 
-# ── HTTP helpers for admin simulations ───────────────────────────────────────
-# All simulations call back into localhost:5000 so every request goes through
-# the full Flask pipeline (before/after hooks, metrics, logging, Sentry).
-# Gunicorn --threads 4 ensures the process can handle concurrent self-calls.
-
-_SELF = "http://127.0.0.1:5000"
+# HTTP helpers for admin simulations
+_SELF = "http://127.0.0.1:5001"
 
 # Opener that does NOT follow redirects (needed for /<code> which returns 302)
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -415,7 +403,7 @@ def _run_parallel(fn, args_list, workers=3):
         concurrent.futures.wait(futures, timeout=60)
 
 
-# ── Admin actions ─────────────────────────────────────────────────────────────
+# Admin actions
 
 _FAKE_URLS = [
     "https://example.com/test/{}",
@@ -483,8 +471,7 @@ def admin_simulate_errors():
     return redirect(url_for("admin_dashboard"))
 
 
-# ── Background cleanup worker ─────────────────────────────────────────────────
-
+# Background cleanup worker
 def _cleanup():
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
@@ -505,8 +492,7 @@ def _cleanup():
         )
 
 
-# ── Startup ───────────────────────────────────────────────────────────────────
-
+# Startup
 def _startup():
     for attempt in range(30):
         try:
