@@ -1,0 +1,16 @@
+# Copy to vars.yml and fill in real values (vars.yml is gitignored).
+#
+# Generate an SSH key pair if you don't have one:
+#   ssh-keygen -t ed25519 -C "deploy@link-shortener"
+# Then paste the contents of the generated .pub file below.
+
+deploy_ssh_public_key: "ssh-ed25519 AAAA... your-public-key-here"
+
+# ── GitHub Actions self-hosted runner ─────────────────────────────────────────
+# The GitHub repository in "owner/repo" format.
+github_repo: "StefanoVidesott/link_shortner-fas"
+
+# A GitHub Personal Access Token (classic) with the "repo" scope.
+# Used only during runner registration to fetch a one-time token via API.
+# Create one at: GitHub → Settings → Developer settings → Personal access tokens
+github_runner_pat: "ghp_REPLACE_WITH_YOUR_PAT"

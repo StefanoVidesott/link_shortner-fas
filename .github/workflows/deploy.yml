@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # .env lives at a stable path on the server, outside the runner workspace.
+      # Ansible creates it at /home/deploy/link_shortner-fas/.env on first run.
+      - name: Copy .env into workspace
+        run: cp /home/deploy/link_shortner-fas/.env .env
+
+      - name: Build images
+        run: docker compose build
+
+      - name: Deploy stack
+        run: docker compose up -d --remove-orphans
+
+      - name: Verify services are up
+        run: |
+          sleep 10
+          docker compose ps --format 'table {{.Name}}\t{{.Status}}'
+          curl -sf http://localhost:5000/health

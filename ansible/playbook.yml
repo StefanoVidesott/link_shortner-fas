@@ -1,18 +1,233 @@
-# To execute this playbook, please run the following command in the shell as
-# regular user:
-# $ ansible-playbook -i inventory.ini playbook.yml --ask-become-pass
+# Prerequisites (run once on the control node):
+#   ansible-galaxy collection install community.general ansible.posix
+#
+# Usage (from the ansible/ directory):
+#   cp vars.yml.example vars.yml        # then edit vars.yml with your SSH public key
+#   ansible-playbook -i inventory.ini playbook.yml --ask-become-pass
+#
+# First run: .env is created from .env.example on the server and the playbook
+# stops — SSH in, edit the file, then re-run to bring the stack up.
 
-- name: Dependency installation
-  hosts: local
-  connection: local
+# ── Play 1: System setup (requires sudo) ────────────────────────────────────
+- name: System setup
+  hosts: server
   become: true
-  become_method: sudo
+  vars_files:
+    - vars.yml
+
   tasks:
-    - name: Install the necessary dependencies
-      # Invoke the packages manager automatically, distro agnostic
-      ansible.builtin.package:
+    - name: Install required packages
+      community.general.pacman:
         name:
           - docker
-          - docker-compose
+          - docker-compose   # provides the 'docker compose' v2 plugin on Arch
           - docker-buildx
+          - git
+          - ufw
         state: present
+        update_cache: true
+
+    - name: Enable and start Docker service
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Create deploy user
+      ansible.builtin.user:
+        name: deploy
+        groups: docker
+        append: true
+        shell: /bin/bash
+        create_home: true
+        state: present
+
+    - name: Authorize SSH public key for deploy user
+      ansible.posix.authorized_key:
+        user: deploy
+        key: "{{ deploy_ssh_public_key }}"
+        state: present
+        exclusive: false
+
+    # Firewall — rules must be added BEFORE enabling UFW to avoid locking yourself out
+    - name: Firewall — allow SSH
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+
+    - name: Firewall — allow HTTP
+      community.general.ufw:
+        rule: allow
+        port: "80"
+        proto: tcp
+
+    - name: Firewall — allow HTTPS
+      community.general.ufw:
+        rule: allow
+        port: "443"
+        proto: tcp
+
+    - name: Firewall — default deny incoming
+      community.general.ufw:
+        default: deny
+        direction: incoming
+
+    - name: Firewall — enable
+      community.general.ufw:
+        state: enabled
+
+# ── Play 2: Deploy application (runs as the deploy user) ────────────────────
+- name: Deploy application
+  hosts: server
+  become: true
+  become_user: deploy
+  vars_files:
+    - vars.yml
+  vars:
+    repo_dest: /home/deploy/link_shortner-fas
+
+  tasks:
+    - name: Clone or update repository
+      ansible.builtin.git:
+        repo: https://github.com/StefanoVidesott/link_shortner-fas.git
+        dest: "{{ repo_dest }}"
+        version: main
+        update: true
+        force: false   # never discard local changes (e.g. an already-edited .env)
+
+    - name: Create .env from .env.example if not present
+      ansible.builtin.copy:
+        src: "{{ repo_dest }}/.env.example"
+        dest: "{{ repo_dest }}/.env"
+        remote_src: true
+        force: false
+      register: env_copied
+
+    - name: Notify user to configure .env
+      ansible.builtin.debug:
+        msg: >-
+          .env created at {{ repo_dest }}/.env on the server.
+          SSH in as deploy and edit it with real secrets, then re-run the playbook.
+      when: env_copied.changed
+
+    - name: Halt until .env is configured
+      ansible.builtin.fail:
+        msg: "Edit {{ repo_dest }}/.env on the server, then re-run the playbook."
+      when: env_copied.changed
+
+    - name: Pull Docker images
+      ansible.builtin.command:
+        cmd: docker compose pull
+        chdir: "{{ repo_dest }}"
+      changed_when: true
+
+    - name: Build application image
+      ansible.builtin.command:
+        cmd: docker compose build
+        chdir: "{{ repo_dest }}"
+      changed_when: true
+
+    - name: Bring the stack up
+      ansible.builtin.command:
+        cmd: docker compose up -d --remove-orphans
+        chdir: "{{ repo_dest }}"
+      register: up_result
+      changed_when: "'Started' in up_result.stderr or 'Created' in up_result.stderr"
+
+# ── Play 3: GitHub Actions self-hosted runner ────────────────────────────────
+- name: Setup GitHub Actions self-hosted runner
+  hosts: server
+  become: true
+  vars_files:
+    - vars.yml
+  vars:
+    runner_version: "2.322.0"
+    runner_user: deploy
+    runner_dir: /home/deploy/actions-runner
+    runner_name: "{{ inventory_hostname }}-runner"
+
+  tasks:
+    - name: Install runner system dependencies
+      community.general.pacman:
+        name:
+          - icu        # required by the .NET runtime bundled in the runner
+          - krb5
+          - openssl
+          - zlib
+          - libunwind
+          - lttng-ust
+        state: present
+
+    - name: Create runner directory
+      ansible.builtin.file:
+        path: "{{ runner_dir }}"
+        state: directory
+        owner: "{{ runner_user }}"
+        group: "{{ runner_user }}"
+        mode: "0750"
+
+    - name: Download runner archive
+      ansible.builtin.get_url:
+        url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+        dest: "{{ runner_dir }}/runner.tar.gz"
+        owner: "{{ runner_user }}"
+        mode: "0640"
+
+    - name: Extract runner archive
+      ansible.builtin.unarchive:
+        src: "{{ runner_dir }}/runner.tar.gz"
+        dest: "{{ runner_dir }}"
+        remote_src: true
+        owner: "{{ runner_user }}"
+        creates: "{{ runner_dir }}/config.sh"
+
+    - name: Check if runner is already registered
+      ansible.builtin.stat:
+        path: "{{ runner_dir }}/.runner"
+      register: runner_registered
+
+    - name: Fetch runner registration token from GitHub API
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/{{ github_repo }}/actions/runners/registration-token"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ github_runner_pat }}"
+          Accept: "application/vnd.github+json"
+        status_code: 201
+      register: runner_token_resp
+      no_log: true
+      when: not runner_registered.stat.exists
+
+    - name: Configure runner
+      ansible.builtin.command:
+        cmd: >-
+          ./config.sh
+          --url https://github.com/{{ github_repo }}
+          --token {{ runner_token_resp.json.token }}
+          --name {{ runner_name }}
+          --labels self-hosted,arch-linux
+          --unattended
+        chdir: "{{ runner_dir }}"
+      become_user: "{{ runner_user }}"
+      no_log: true
+      when: not runner_registered.stat.exists
+
+    - name: Install runner as systemd service
+      ansible.builtin.command:
+        cmd: ./svc.sh install "{{ runner_user }}"
+        chdir: "{{ runner_dir }}"
+      args:
+        creates: "{{ runner_dir }}/.service"
+
+    - name: Read installed service name
+      ansible.builtin.slurp:
+        src: "{{ runner_dir }}/.service"
+      register: svc_name_raw
+
+    - name: Enable and start runner service
+      ansible.builtin.systemd:
+        name: "{{ svc_name_raw.content | b64decode | trim }}"
+        state: started
+        enabled: true
+        daemon_reload: true
