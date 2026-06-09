@@ -50,32 +50,32 @@
         exclusive: false
 
     # Firewall — rules must be added BEFORE enabling UFW to avoid locking yourself out
-    - name: Firewall — allow SSH
-      community.general.ufw:
-        rule: allow
-        port: "22"
-        proto: tcp
+    # - name: Firewall — allow SSH
+    #   community.general.ufw:
+    #     rule: allow
+    #     port: "22"
+    #     proto: tcp
 
-    - name: Firewall — allow HTTP
-      community.general.ufw:
-        rule: allow
-        port: "80"
-        proto: tcp
+    # - name: Firewall — allow HTTP
+    #   community.general.ufw:
+    #     rule: allow
+    #     port: "80"
+    #     proto: tcp
 
-    - name: Firewall — allow HTTPS
-      community.general.ufw:
-        rule: allow
-        port: "443"
-        proto: tcp
+    # - name: Firewall — allow HTTPS
+    #   community.general.ufw:
+    #     rule: allow
+    #     port: "443"
+    #     proto: tcp
 
-    - name: Firewall — default deny incoming
-      community.general.ufw:
-        default: deny
-        direction: incoming
+    # - name: Firewall — default deny incoming
+    #   community.general.ufw:
+    #     default: deny
+    #     direction: incoming
 
-    - name: Firewall — enable
-      community.general.ufw:
-        state: enabled
+    # - name: Firewall — enable
+    #   community.general.ufw:
+    #     state: enabled
 
 # ── Play 2: Deploy application (runs as the deploy user) ────────────────────
 - name: Deploy application
