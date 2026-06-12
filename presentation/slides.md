@@ -28,7 +28,7 @@ class: text-center
 </h1>
 
 <p class="text-2xl text-slate-300 font-light">
-  con Stack di Osservabilità Completo
+  con Stack di Osservabilità
 </p>
 
 <div class="flex gap-3 mt-4 flex-wrap justify-center">
@@ -56,7 +56,7 @@ transition: fade-out
 
 <div class="space-y-3">
 
-<div v-click class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">01</span>
   <div>
     <div class="font-semibold text-slate-200">Il Progetto</div>
@@ -64,15 +64,15 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">02</span>
   <div>
-    <div class="font-semibold text-slate-200">Architettura & Stack</div>
+    <div class="font-semibold text-slate-200">Stack & Architettura</div>
     <div class="text-sm text-slate-400">Servizi Docker, networking, volumi</div>
   </div>
 </div>
 
-<div v-click class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">03</span>
   <div>
     <div class="font-semibold text-slate-200">Osservabilità</div>
@@ -80,7 +80,7 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">04</span>
   <div>
     <div class="font-semibold text-slate-200">CI/CD & Deployment</div>
@@ -92,7 +92,7 @@ transition: fade-out
 
 <div class="space-y-3">
 
-<div v-click class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-teal-400 font-mono text-sm mt-0.5 shrink-0">05</span>
   <div>
     <div class="font-semibold text-slate-200">Demo Live</div>
@@ -100,11 +100,11 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-teal-400 font-mono text-sm mt-0.5 shrink-0">06</span>
   <div>
     <div class="font-semibold text-slate-200">Concolusione</div>
-    <div class="text-sm text-slate-400">Rimgraziamento e discussione</div>
+    <div class="text-sm text-slate-400">Ringraziamento e discussione</div>
   </div>
 </div>
 
@@ -124,7 +124,7 @@ layout: section
 
 <div class="grid grid-cols-3 gap-5 mt-6">
 
-<div v-click class="col-span-1 p-5 rounded-xl bg-gradient-to-b from-sky-500/10 to-sky-500/5 border border-sky-500/20">
+<div v-click.fade.up.scale class="col-span-1 p-5 rounded-xl bg-gradient-to-b from-sky-500/10 to-sky-500/5 border border-sky-500/20">
   <div class="text-sky-400 mb-3">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>
   </div>
@@ -132,15 +132,15 @@ layout: section
   <p class="text-sm text-slate-400 leading-relaxed">Accorcia URL lunghi in codici brevi a 6 caratteri con TTL configurabile e pannello admin.</p>
 </div>
 
-<div v-click class="col-span-1 p-5 rounded-xl bg-gradient-to-b from-green-500/10 to-green-500/5 border border-green-500/20">
+<div v-after.fade.up.scale class="col-span-1 p-5 rounded-xl bg-gradient-to-b from-green-500/10 to-green-500/5 border border-green-500/20">
   <div class="text-green-400 mb-3">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" /></svg>
   </div>
-  <h3 class="font-semibold text-slate-200 mb-2">Osservabilità Completa</h3>
-  <p class="text-sm text-slate-400 leading-relaxed">Metriche, log strutturati e tracciamento errori. Ogni richiesta è misurabile e analizzabile.</p>
+  <h3 class="font-semibold text-slate-200 mb-2">Stack di Osservabilità</h3>
+  <p class="text-sm text-slate-400 leading-relaxed">Metriche, log strutturati e tracciamento errori.</p>
 </div>
 
-<div v-click class="col-span-1 p-5 rounded-xl bg-gradient-to-b from-purple-500/10 to-purple-500/5 border border-purple-500/20">
+<div v-after.fade.up.scale class="col-span-1 p-5 rounded-xl bg-gradient-to-b from-purple-500/10 to-purple-500/5 border border-purple-500/20">
   <div class="text-purple-400 mb-3">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 6 0m-6 0H3m16.5 0a3 3 0 0 0 3-3m-3 3a3 3 0 1 1-6 0m6 0H21m-9-3a3 3 0 1 0-6 0m6 0a3 3 0 1 1 6 0" /></svg>
   </div>
@@ -150,10 +150,10 @@ layout: section
 
 </div>
 
-<div v-click class="mt-6 p-4 rounded-lg bg-slate-800/50 border border-slate-700 text-left">
+<div v-click.fade.up.scale class="mt-6 p-4 rounded-lg bg-slate-800/50 border border-slate-700 text-left">
   <p class="text-sm text-slate-300">
-    <span class="text-sky-400 font-semibold">Obiettivo del corso:</span>
-    Il focus non è l'applicazione in sé, ma l'<span class="text-teal-300">infrastruttura</span> che la circonda — deployment ripetibile, visibilità operativa e automazione del ciclo di vita.
+    <span class="text-sky-400 font-semibold">Obiettivo del progetto:</span>
+    Il focus non è l'applicazione in sé, ma l'<span class="text-teal-300">infrastruttura</span> che la circonda. Con deployment ripetibile ed automatizzato.
   </p>
 </div>
 
@@ -165,47 +165,47 @@ layout: section
 
 <div>
 
-### Endpoint REST
+### Endpoint Principali
 
 <div class="space-y-2 mt-3 font-mono text-sm">
 
-<!-- <div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<!-- <div v-click.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
   <span class="text-slate-300">/</span>
   <span class="text-slate-500 text-xs ml-auto">Home</span>
 </div> -->
 
-<div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs font-bold">POST</span>
   <span class="text-slate-300">/shorten</span>
   <span class="text-slate-500 text-xs ml-auto">Crea short link</span>
 </div>
 
-<div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-after.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
   <span class="text-slate-300">/_error</span>
   <span class="text-slate-500 text-xs ml-auto">Triggers an error 500</span>
 </div>
 
-<div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-after.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
   <span class="text-slate-300">/&lt;short_code&gt;</span>
   <span class="text-slate-500 text-xs ml-auto">Redirect</span>
 </div>
 
-<div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-after.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
   <span class="text-slate-300">/stats/&lt;short_code&gt;</span>
   <span class="text-slate-500 text-xs ml-auto">Click, scadenza</span>
 </div>
 
-<div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-after.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
   <span class="text-slate-300">/health</span>
   <span class="text-slate-500 text-xs ml-auto">DB connectivity</span>
 </div>
 
-<div v-click class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-after.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
   <span class="text-slate-300">/metrics</span>
   <span class="text-slate-500 text-xs ml-auto">Prometheus</span>
@@ -221,27 +221,27 @@ layout: section
 
 <div class="space-y-2 mt-3 text-sm">
 
-<div v-click class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
+<div v-click.fade.up.scale class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
   <span class="text-green-400 mt-0.5 shrink-0">✓</span>
   <span class="text-slate-300">Short code alfanumerico (6 char, <code class="text-sky-300">62⁶ ≈ 56 miliardi</code> di combinazioni)</span>
 </div>
 
-<div v-click class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
+<div v-after.fade.up.scale class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
   <span class="text-green-400 mt-0.5 shrink-0">✓</span>
   <span class="text-slate-300">Simulazione di errori dell'applicazione lato backend</span>
 </div>
 
-<div v-click class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
+<div v-after.fade.up.scale class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
   <span class="text-green-400 mt-0.5 shrink-0">✓</span>
-  <span class="text-slate-300">TTL configurabile (default 30 giorni), cleanup automatico ogni 10 min</span>
+  <span class="text-slate-300">TTL (default 30 giorni) e cleanup automatico (default 10 min) configurabili</span>
 </div>
 
-<div v-click class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
+<div v-after.fade.up.scale class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
   <span class="text-green-400 mt-0.5 shrink-0">✓</span>
   <span class="text-slate-300">Pannello admin per gestione e monitoraggio link</span>
 </div>
 
-<div v-click class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
+<div v-after.fade.up.scale class="flex items-start gap-2 p-3 rounded-lg bg-slate-800/40 border border-slate-700/50">
   <span class="text-green-400 mt-0.5 shrink-0">✓</span>
   <span class="text-slate-300">Log strutturati JSON su ogni richiesta HTTP</span>
 </div>
@@ -256,25 +256,75 @@ layout: section
 layout: section
 ---
 
-# 02 · Architettura & Stack
+# 02 · Stack & Architettura
+
+---
+
+# Stack Tecnologico
+
+<div class="grid grid-cols-4 gap-3 mt-4 text-sm">
+
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-sky-300 text-base mb-1">Flask</div>
+  <div class="text-slate-400 text-xs">App Python<br>+ python-json-logger</div>
+</div>
+
+<div v-after.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-orange-300 text-base mb-1">MySQL 8</div>
+  <div class="text-slate-400 text-xs">Persistenza<br>Named Volume Docker</div>
+</div>
+
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-blue-300 text-base mb-1">Docker Compose</div>
+  <div class="text-slate-400 text-xs">8 servizi<br>bridge network</div>
+</div>
+
+<div v-after.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-red-300 text-base mb-1">Prometheus</div>
+  <div class="text-slate-400 text-xs">Scrape ogni 15s<br>5 metriche custom</div>
+</div>
+
+<div v-after.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-yellow-300 text-base mb-1">Grafana</div>
+  <div class="text-slate-400 text-xs">Dashboard<br>auto-provisioning</div>
+</div>
+
+<div v-after.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-green-300 text-base mb-1">Loki + Promtail</div>
+  <div class="text-slate-400 text-xs">Log aggregation<br>31gg retention</div>
+</div>
+
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-purple-300 text-base mb-1">Sentry</div>
+  <div class="text-slate-400 text-xs">Error tracking<br>cloud + DSN opzionale</div>
+</div>
+
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
+  <div class="font-semibold text-slate-300 text-base mb-1">Ansible</div>
+  <div class="text-slate-400 text-xs">IaC · 3 Play<br>Arch Linux</div>
+</div>
+
+</div>
 
 ---
 
 # Architettura di Sistema
 
-```mermaid {scale: 0.53}
+```mermaid {scale: 0.52}
 graph LR
-    U["Utente"]
+    U["Utente / Admin"]
     GH["GitHub"]
     S["☁ Sentry"]
 
-    subgraph docker["Docker Network — bridge"]
+    subgraph docker["Docker Network: app"]
         direction TB
-        subgraph app["Applicazione"]
+
+        subgraph logic_app["Gruppo Logico: Applicazione"]
             F["Flask\n:5000"]
-            DB[("MySQL 8")]
+            DB[("MySQL 8\n:3306")]
         end
-        subgraph obs["Osservabilità"]
+
+        subgraph logic_obs["Gruppo Logico: Osservabilità"]
             P["Prometheus\n:9090"]
             PT["Promtail"]
             L["Loki\n:3100"]
@@ -284,65 +334,26 @@ graph LR
 
     R["Runner\nArch Linux"]
 
+    %% Connessioni Esterne
     U -->|":5001"| F
-    F --- DB
-    F --->|"stdout"| PT
+    U -->|":5002"| G
+    U -->|":5003"| P
+
+    %% Connessioni Database e Sentry
+    F -->|"TCP"| DB
     F -.->|"errori"| S
-    P -->|"scrape"| F
+
+    %% Connessioni di Osservabilità
+    P -->|"scrape /metrics"| F
+    PT -.->|"legge via docker.sock"| F
     PT -->|"push"| L
-    P --> G
-    L --> G
+    G -->|"query"| L
+    G -->|"query"| P
+
+    %% CI/CD
     GH -->|"trigger"| R
-    R -->|"compose up"| docker
+    R ---->|"compose up"| docker
 ```
-
----
-
-# Stack Tecnologico
-
-<div class="grid grid-cols-4 gap-3 mt-4 text-sm">
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-sky-300 text-base mb-1">Flask</div>
-  <div class="text-slate-400 text-xs">App Python<br>+ python-json-logger</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-orange-300 text-base mb-1">MySQL 8</div>
-  <div class="text-slate-400 text-xs">Persistenza<br>Named Volume Docker</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-blue-300 text-base mb-1">Docker Compose</div>
-  <div class="text-slate-400 text-xs">8 servizi<br>bridge network</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-red-300 text-base mb-1">Prometheus</div>
-  <div class="text-slate-400 text-xs">Scrape ogni 15s<br>5 metriche custom</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-yellow-300 text-base mb-1">Grafana</div>
-  <div class="text-slate-400 text-xs">Dashboard<br>auto-provisioning</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-green-300 text-base mb-1">Loki + Promtail</div>
-  <div class="text-slate-400 text-xs">Log aggregation<br>31gg retention</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-purple-300 text-base mb-1">Sentry</div>
-  <div class="text-slate-400 text-xs">Error tracking<br>cloud + DSN opzionale</div>
-</div>
-
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-center">
-  <div class="font-semibold text-slate-300 text-base mb-1">Ansible</div>
-  <div class="text-slate-400 text-xs">IaC · 3 Play<br>Arch Linux</div>
-</div>
-
-</div>
 
 ---
 layout: section
@@ -357,31 +368,31 @@ layoutClass: gap-8
 
 # Metriche — Prometheus
 
-### 5 Metriche Custom Esposte a `/metrics`
+### 5 Metriche Esposte a `/metrics`
 
 <div class="space-y-2 mt-4 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
   <div class="font-mono text-red-300 text-xs">http_requests_total</div>
   <div class="text-slate-400 mt-1">Counter · label: <code class="text-slate-300">method, endpoint, http_status</code></div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/20">
+<div v-after.fade.up.scale class="p-3 rounded-lg bg-orange-500/10 border border-orange-500/20">
   <div class="font-mono text-orange-300 text-xs">http_request_duration_seconds</div>
   <div class="text-slate-400 mt-1">Histogram · label: <code class="text-slate-300">method, endpoint</code> · P50/P95/P99</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-sky-500/10 border border-sky-500/20">
+<div v-after.fade.up.scale class="p-3 rounded-lg bg-sky-500/10 border border-sky-500/20">
   <div class="font-mono text-sky-300 text-xs">links_created_total</div>
   <div class="text-slate-400 mt-1">Counter · link accorciati da avvio</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-teal-500/10 border border-teal-500/20">
+<div v-after.fade.up.scale class="p-3 rounded-lg bg-teal-500/10 border border-teal-500/20">
   <div class="font-mono text-teal-300 text-xs">links_redirected_total</div>
   <div class="text-slate-400 mt-1">Counter · redirect effettuati</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+<div v-after.fade.up.scale class="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
   <div class="font-mono text-green-300 text-xs">last_cleanup_success_timestamp</div>
   <div class="text-slate-400 mt-1">Gauge · heartbeat del job di cleanup</div>
 </div>
@@ -408,8 +419,8 @@ scrape_configs:
       - targets: ['grafana:3000']
 ```
 
-<div v-click class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs text-slate-400">
-  <span class="text-yellow-400 font-semibold">Nota:</span> i target usano la <span class="text-white">porta interna del container</span> (<code>5000</code>, <code>3000</code>), non quella esposta sull'host — i servizi comunicano dentro la bridge network.
+<div v-click.fade.up.scale class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs text-slate-400">
+  <span class="text-yellow-400 font-semibold">Nota:</span> i target usano la <span class="text-white">porta interna del container</span> (<code>5000</code>, <code>3000</code>), non quella esposta sull'host - i servizi comunicano dentro la bridge network.
 </div>
 
 ---
@@ -418,37 +429,37 @@ scrape_configs:
 
 <div class="grid grid-cols-3 gap-3 mt-4 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-yellow-500/20 text-center">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-yellow-500/20 text-center">
   <div class="text-yellow-400 font-semibold">Request Rate</div>
   <div class="text-slate-400 text-xs mt-1">req/s per endpoint</div>
   <div class="mt-2 h-8 rounded bg-yellow-500/10 flex items-center justify-center text-xs text-yellow-400/60 font-mono">rate(http_requests_total[1m])</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-orange-500/20 text-center">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-orange-500/20 text-center">
   <div class="text-orange-400 font-semibold">Latenza P50/P95/P99</div>
   <div class="text-slate-400 text-xs mt-1">Histogram quantile</div>
   <div class="mt-2 h-8 rounded bg-orange-500/10 flex items-center justify-center text-xs text-orange-400/60 font-mono">histogram_quantile(0.99)</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-red-500/20 text-center">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-red-500/20 text-center">
   <div class="text-red-400 font-semibold">Tasso Errori 5xx</div>
   <div class="text-slate-400 text-xs mt-1">Error rate % sul totale</div>
   <div class="mt-2 h-8 rounded bg-red-500/10 flex items-center justify-center text-xs text-red-400/60 font-mono">http_status="5.."</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-sky-500/20 text-center">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-sky-500/20 text-center">
   <div class="text-sky-400 font-semibold">Link Creati</div>
   <div class="text-slate-400 text-xs mt-1">Crescita cumulativa</div>
   <div class="mt-2 h-8 rounded bg-sky-500/10 flex items-center justify-center text-xs text-sky-400/60 font-mono">links_created_total</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-teal-500/20 text-center">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-teal-500/20 text-center">
   <div class="text-teal-400 font-semibold">Redirect</div>
   <div class="text-slate-400 text-xs mt-1">Rate redirect/s</div>
   <div class="mt-2 h-8 rounded bg-teal-500/10 flex items-center justify-center text-xs text-teal-400/60 font-mono">links_redirected_total</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-green-500/20 text-center">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-green-500/20 text-center">
   <div class="text-green-400 font-semibold">Cleanup Heartbeat</div>
   <div class="text-slate-400 text-xs mt-1">Ultima esecuzione job</div>
   <div class="mt-2 h-8 rounded bg-green-500/10 flex items-center justify-center text-xs text-green-400/60 font-mono">last_cleanup_success</div>
@@ -456,7 +467,7 @@ scrape_configs:
 
 </div>
 
-<div v-click class="mt-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-sm text-slate-300 text-center">
+<div v-click.fade.up.scale class="mt-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-sm text-slate-300 text-center">
   La dashboard è <span class="text-yellow-300 font-semibold">auto-provisioned</span> all'avvio tramite
   <code class="text-yellow-400">grafana/provisioning/dashboards/</code> — zero configurazione manuale.
 </div>
@@ -503,15 +514,15 @@ sum by (endpoint) (http_requests_total)
 
 <div class="mt-10 space-y-3 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-sky-400 font-semibold">rate()</span> calcola la variazione media al secondo nel finestra temporale indicata. Usare <code>[5m]</code> per dashboard stabili, <code>[1m]</code> per reattività.
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-red-400 font-semibold">http_status=~"5.."</span> usa una regex — il <code>=~</code> filtra tutti i codici che iniziano con 5 (500, 502, 503, …).
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-teal-400 font-semibold">sum by (endpoint)</span> aggrega i valori raggruppando per endpoint, utile per confrontare il volume per route.
 </div>
 
@@ -569,15 +580,15 @@ histogram_quantile(0.99,
 
 <div class="mt-10 space-y-3 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-orange-400 font-semibold">Latenza media</span> = sum / count. Semplice ma può mascherare code lente — preferire i percentili per un'analisi accurata.
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-orange-400 font-semibold">P95</span> = il 95% delle richieste è più veloce di questo valore. <code>le</code> è il label "less than equal" generato automaticamente dall'Histogram.
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   Cambiare il primo argomento <code>0.99</code> → <code>0.50</code> per la mediana, <code>0.95</code> per il P95. Aggiungere <code>by (le, endpoint)</code> per separare le route.
 </div>
 
@@ -625,11 +636,11 @@ links_created_total
 
 <div class="mt-10 space-y-3 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-sky-400 font-semibold">links_created_total</span> e <span class="text-teal-400 font-semibold">links_redirected_total</span> sono Counter — crescono sempre. Usare <code>rate()</code> per la velocità, il nome nudo per il totale cumulativo.
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   Il rapporto <code>rate(links_redirected_total[5m]) / rate(links_created_total[5m])</code> dà il "redirect rate" — quante volte in media viene usato ogni link creato nell'intervallo.
 </div>
 
@@ -669,12 +680,12 @@ last_cleanup_success_timestamp_seconds
 
 <div class="mt-10 space-y-4 text-sm">
 
-<div v-click class="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-slate-300 text-xs">
+<div v-click.fade.up.scale class="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-slate-300 text-xs">
   <div class="text-green-400 font-semibold mb-2">Perché è importante</div>
   Il cleanup rimuove i link scaduti ogni <code>CLEANUP_INTERVAL_MINUTES</code> (default 10 min). Se il Gauge smette di aggiornarsi, significa che il thread <code>BackgroundScheduler</code> si è bloccato silenziosamente — senza questa metrica l'anomalia sarebbe invisibile.
 </div>
 
-<div v-click class="p-4 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
   <span class="text-teal-400 font-semibold">Pattern Deadman Switch:</span> <code>time() - gauge</code> misura quanto tempo è passato dall'ultimo "battito". È il modo standard per rilevare job o worker che smettono di girare.
 </div>
 
@@ -705,7 +716,7 @@ layoutClass: gap-8
   <div class="text-yellow-300 pl-4">Grafana <span class="text-slate-500 text-xs">(LogQL)</span></div>
 </div>
 
-<div v-click class="mt-5 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs">
+<div v-click.fade.scale class="mt-5 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs">
   <div class="text-green-400 font-semibold mb-1">Label indicizzato</div>
   <code class="text-slate-300">level</code> → <code class="text-green-300">INFO / WARNING / ERROR</code>
   <div class="text-slate-500 mt-1">Alta cardinalità (method, path) rimane come metadata JSON, non label</div>
@@ -738,7 +749,7 @@ _handler.setFormatter(
 {job="flask"} | json | path="/shorten"
 ```
 
-<div v-click class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs text-slate-400">
+<div v-click.fade.up.scale class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs text-slate-400">
   <span class="text-sky-400 font-semibold">Health check filtrati:</span> i log
   <code>GET /health 200</code> scartati da Promtail — già coperti da Prometheus <code>/metrics</code>.
 </div>
@@ -767,7 +778,7 @@ if _sentry_dsn:
     )
 ```
 
-<div v-click class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-sm text-slate-400">
+<div v-click.fade.up.scale class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-sm text-slate-400">
   Attivo solo se <code class="text-orange-300">SENTRY_DSN</code> è impostato in
   <code>.env</code>. Disabilitabile senza modificare il codice.
 </div>
@@ -776,17 +787,17 @@ if _sentry_dsn:
 
 <div class="space-y-3 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-purple-500/20">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-purple-500/20">
   <div class="text-purple-400 font-semibold">Cattura automatica</div>
   <div class="text-slate-400 mt-1">Eccezioni non gestite, errori 500, stack trace completi con contesto request</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-purple-500/20">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-purple-500/20">
   <div class="text-purple-400 font-semibold">Performance Tracing</div>
   <div class="text-slate-400 mt-1">10% campionamento transazioni per latenza end-to-end (Flask → MySQL)</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-purple-500/20">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-purple-500/20">
   <div class="text-purple-400 font-semibold">Complementare a Loki</div>
   <div class="text-slate-400 mt-1">Loki = volume di log · Sentry = debug approfondito con contesto variabili</div>
 </div>
@@ -841,7 +852,7 @@ jobs:
 
 <div class="space-y-3 mt-2 text-sm">
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="flex items-center gap-2 mb-1">
     <span class="w-2 h-2 rounded-full bg-green-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">Runner come servizio systemd</span>
@@ -849,7 +860,7 @@ jobs:
   <div class="text-slate-400 text-xs">Installato come utente <code>deploy</code>, già nel gruppo <code>docker</code></div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="flex items-center gap-2 mb-1">
     <span class="w-2 h-2 rounded-full bg-sky-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">Registrazione via GitHub API</span>
@@ -857,7 +868,7 @@ jobs:
   <div class="text-slate-400 text-xs">Token ottenuto automaticamente dal PAT in <code>vars.yml</code> durante il Play 3 di Ansible</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="flex items-center gap-2 mb-1">
     <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">Nessun SSH in ingresso</span>
@@ -865,7 +876,7 @@ jobs:
   <div class="text-slate-400 text-xs">Il runner contatta GitHub outbound — funziona dietro NAT e firewall</div>
 </div>
 
-<div v-click class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="flex items-center gap-2 mb-1">
     <span class="w-2 h-2 rounded-full bg-orange-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">actions/checkout@v4 = git pull</span>
@@ -881,7 +892,7 @@ jobs:
 
 <div class="grid grid-cols-3 gap-4 mt-4 text-sm">
 
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
   <div class="text-red-400 font-semibold mb-3 flex items-center gap-2">
     <span class="font-mono text-xs bg-red-500/20 px-2 py-0.5 rounded">Play 1</span>
     System Setup
@@ -895,7 +906,7 @@ jobs:
   </ul>
 </div>
 
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
   <div class="text-sky-400 font-semibold mb-3 flex items-center gap-2">
     <span class="font-mono text-xs bg-sky-500/20 px-2 py-0.5 rounded">Play 2</span>
     Deploy App
@@ -909,7 +920,7 @@ jobs:
   </ul>
 </div>
 
-<div v-click class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
   <div class="text-purple-400 font-semibold mb-3 flex items-center gap-2">
     <span class="font-mono text-xs bg-purple-500/20 px-2 py-0.5 rounded">Play 3</span>
     CI/CD Runner
@@ -925,7 +936,7 @@ jobs:
 
 </div>
 
-<div v-click class="mt-5 p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+<div v-click.fade.up.scale class="mt-5 p-4 rounded-lg bg-slate-800/50 border border-slate-700">
   <div class="grid grid-cols-3 gap-4 text-center text-sm">
     <div>
       <div class="text-xl font-bold text-sky-400">Idempotente</div>
@@ -1035,7 +1046,7 @@ class: text-center
 
 <div class="grid grid-cols-2 gap-5 mt-6 text-left max-w-3xl mx-auto">
 
-<div v-click class="p-4 rounded-xl bg-gradient-to-b from-sky-500/10 to-transparent border border-sky-500/20">
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-gradient-to-b from-sky-500/10 to-transparent border border-sky-500/20">
   <div class="text-sky-400 font-semibold mb-2">Cosa abbiamo costruito</div>
   <ul class="text-slate-400 text-sm space-y-1.5">
     <li>· Servizio completo in Docker Compose</li>
@@ -1047,7 +1058,7 @@ class: text-center
   </ul>
 </div>
 
-<div v-click class="p-4 rounded-xl bg-gradient-to-b from-green-500/10 to-transparent border border-green-500/20">
+<div v-click.fade.up.scale class="p-4 rounded-xl bg-gradient-to-b from-green-500/10 to-transparent border border-green-500/20">
   <div class="text-green-400 font-semibold mb-2">Lezioni chiave</div>
   <ul class="text-slate-400 text-sm space-y-1.5">
     <li>· Porte host ≠ porte container (bridge network)</li>
@@ -1060,7 +1071,7 @@ class: text-center
 
 </div>
 
-<div v-click class="mt-5 flex gap-2 justify-center flex-wrap">
+<div v-click.fade.up.scale class="mt-5 flex gap-2 justify-center flex-wrap">
   <span class="px-3 py-1.5 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300 text-xs font-mono">Flask</span>
   <span class="px-3 py-1.5 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300 text-xs font-mono">Docker Compose</span>
   <span class="px-3 py-1.5 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300 text-xs font-mono">Prometheus</span>
