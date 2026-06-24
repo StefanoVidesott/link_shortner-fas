@@ -103,7 +103,7 @@ transition: fade-out
 <div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-teal-400 font-mono text-sm mt-0.5 shrink-0">06</span>
   <div>
-    <div class="font-semibold text-slate-200">Conclusione</div>
+    <div class="font-semibold text-slate-200">Concolusione</div>
     <div class="text-sm text-slate-400">Ringraziamento e discussione</div>
   </div>
 </div>
@@ -168,6 +168,12 @@ layout: section
 ### Endpoint Principali
 
 <div class="space-y-2 mt-3 font-mono text-sm">
+
+<!-- <div v-click.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 text-xs font-bold">GET</span>
+  <span class="text-slate-300">/</span>
+  <span class="text-slate-500 text-xs ml-auto">Home</span>
+</div> -->
 
 <div v-click.fade.up.scale class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs font-bold">POST</span>
@@ -356,40 +362,6 @@ layout: section
 # 03 · Osservabilità
 
 ---
-
-<!-- # I Due Pilastri dell'Osservabilità -->
-# Segnali impiegati
-
-<div class="grid grid-cols-3 gap-8 mt-8 max-w-2xl mx-auto">
-
-<div v-click.fade.up.scale class="p-5 rounded-xl bg-gradient-to-b from-red-500/10 to-red-500/5 border border-red-500/20">
-  <div class="text-red-400 font-bold text-lg mb-1">Metriche</div>
-  <div class="text-slate-400 text-xs mb-3 font-mono">Prometheus + Grafana</div>
-  <p class="text-sm text-slate-400 leading-relaxed">Valori numerici aggregati nel tempo. Rispondono a "quanto?" e "quanto spesso?".</p>
-</div>
-
-<div v-after.fade.up.scale class="p-5 rounded-xl bg-gradient-to-b from-green-500/10 to-green-500/5 border border-green-500/20">
-  <div class="text-green-400 font-bold text-lg mb-1">Log</div>
-  <div class="text-slate-400 text-xs mb-3 font-mono">Loki + Promtail</div>
-  <p class="text-sm text-slate-400 leading-relaxed">Eventi discreti con contesto testuale. Rispondono a "cosa è successo esattamente?".</p>
-</div>
-
-<div v-after.fade.up.scale class="p-5 rounded-xl bg-gradient-to-b from-purple-500/10 to-purple-500/5 border border-green-500/20">
-  <div class="text-purple-400 font-bold text-lg mb-1">Errori</div>
-  <div class="text-slate-400 text-xs mb-3 font-mono">Sentry SDK</div>
-  <p class="text-sm text-slate-400 leading-relaxed">Eccezioni con stack trace e contesto completo. Rispondono a "perché è andato storto?".</p>
-</div>
-
-</div>
-
-<div v-click.fade.up.scale class="mt-8 p-4 rounded-lg bg-slate-800/50 border border-slate-700 text-left max-w-2xl mx-auto">
-  <p class="text-sm text-slate-300">
-    <span class="text-sky-400 font-semibold">Usati insieme:</span>
-    le metriche identificano <span class="text-red-300">quando</span> e <span class="text-red-300">quanto</span> qualcosa va storto — i log spiegano <span class="text-green-300">cosa</span> è successo esattamente in quel momento.
-  </p>
-</div>
-
----
 layout: two-cols
 layoutClass: gap-8
 ---
@@ -453,42 +425,6 @@ scrape_configs:
 
 ---
 
-# Label e Cardinalità
-
-<div class="grid grid-cols-2 gap-6 mt-4">
-
-<div>
-
-<div v-click.fade.up.scale class="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-sm mb-4">
-  <div class="text-green-400 font-semibold mb-2">✓ Label a bassa cardinalità — corretto</div>
-  <div class="text-slate-400 text-xs mb-2">Pochi valori possibili, serie temporali contenute:</div>
-  <code class="text-green-300 text-xs">method="GET"|"POST"<br>http_status="200"|"404"|"500"<br>endpoint="/shorten"|"/health"</code>
-</div>
-
-<div v-click.fade.up.scale class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-sm">
-  <div class="text-red-400 font-semibold mb-2">✗ Label ad alta cardinalità — pericoloso</div>
-  <div class="text-slate-400 text-xs mb-2">Valori illimitati, esplosione di serie temporali:</div>
-  <code class="text-red-300 text-xs">user_id="1234"|"5678"|…<br>short_code="aB3xYz"|…<br>ip_address="1.2.3.4"|…</code>
-</div>
-
-</div>
-
-<div class="space-y-4 text-sm">
-
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/60 border border-slate-700 text-slate-400 text-xs">
-  <span class="text-sky-400 font-semibold">Perché è un problema:</span> ogni combinazione unica di label crea una serie temporale separata in Prometheus. Con <code>user_id</code> come label e 100k utenti, una sola metrica genera 100k serie — memoria e query diventano proibitive.
-</div>
-
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/60 border border-slate-700 text-slate-400 text-xs">
-  <span class="text-yellow-400 font-semibold">La stessa regola vale per Loki:</span> i label indicizzati devono essere a bassa cardinalità (<code>level</code>, <code>job</code>). Dati ad alta cardinalità come <code>path</code> o <code>user_id</code> rimangono come metadata JSON non indicizzato, ricercabile con <code>| json</code>.
-</div>
-
-</div>
-
-</div>
-
----
-
 # Dashboard Grafana
 
 <div class="grid grid-cols-3 gap-3 mt-4 text-sm">
@@ -541,9 +477,9 @@ layout: two-cols
 layoutClass: gap-6
 ---
 
-# Query PromQL — Traffico & Errori
+# Query PromQL — Traffico
 
-<div class="space-y-4 mt-3 text-sm">
+<div class="space-y-3 mt-3 text-sm">
 
 <div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="text-sky-400 text-xs font-semibold mb-1">Richieste al secondo · per endpoint e status</div>
@@ -554,7 +490,7 @@ rate(http_requests_total[5m])
 
 </div>
 
-<div class="p-3 rounded-lg bg-slate-800/60 border border-red-500/20">
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="text-red-400 text-xs font-semibold mb-1">Solo errori 5xx</div>
 
 ```text
@@ -563,18 +499,31 @@ rate(http_requests_total{http_status=~"5.."}[5m])
 
 </div>
 
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-teal-400 text-xs font-semibold mb-1">Totale cumulativo per endpoint</div>
+
+```text
+sum by (endpoint) (http_requests_total)
+```
+
+</div>
+
 </div>
 
 ::right::
 
-<div class="mt-10 space-y-4 text-sm">
+<div class="mt-10 space-y-3 text-sm">
 
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
-  <span class="text-sky-400 font-semibold">rate()</span> calcola la variazione media al secondo nella finestra temporale. Usare <code>[5m]</code> per dashboard stabili, <code>[1m]</code> per maggiore reattività.
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  <span class="text-sky-400 font-semibold">rate()</span> calcola la variazione media al secondo nel finestra temporale indicata. Usare <code>[5m]</code> per dashboard stabili, <code>[1m]</code> per reattività.
 </div>
 
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
-  <span class="text-red-400 font-semibold">http_status=~"5.."</span> usa una regex — <code>=~</code> filtra tutti i codici che iniziano con 5 (500, 502, 503 …).
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  <span class="text-red-400 font-semibold">http_status=~"5.."</span> usa una regex — il <code>=~</code> filtra tutti i codici che iniziano con 5 (500, 502, 503, …).
+</div>
+
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  <span class="text-teal-400 font-semibold">sum by (endpoint)</span> aggrega i valori raggruppando per endpoint, utile per confrontare il volume per route.
 </div>
 
 </div>
@@ -584,11 +533,22 @@ layout: two-cols
 layoutClass: gap-6
 ---
 
-# Query PromQL — Latenza & Business
+# Query PromQL — Latenza
 
-<div class="space-y-4 mt-3 text-sm">
+<div class="space-y-3 mt-3 text-sm">
 
-<div class="p-3 rounded-lg bg-slate-800/60 border border-orange-500/20">
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-orange-400 text-xs font-semibold mb-1">Latenza media</div>
+
+```text
+rate(http_request_duration_seconds_sum[5m])
+/
+rate(http_request_duration_seconds_count[5m])
+```
+
+</div>
+
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <div class="text-orange-400 text-xs font-semibold mb-1">Percentile 95 — globale</div>
 
 ```text
@@ -601,21 +561,15 @@ histogram_quantile(0.95,
 
 </div>
 
-<div class="p-3 rounded-lg bg-slate-800/60 border border-teal-500/20">
-  <div class="text-teal-400 text-xs font-semibold mb-1">Redirect rate per link creato</div>
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-orange-400 text-xs font-semibold mb-1">P50 / P95 / P99 per endpoint</div>
 
 ```text
-rate(links_redirected_total[5m])
-/ rate(links_created_total[5m])
-```
-
-</div>
-
-<div class="p-3 rounded-lg bg-slate-800/60 border border-green-500/20">
-  <div class="text-green-400 text-xs font-semibold mb-1">Cleanup heartbeat — Deadman Switch</div>
-
-```text
-time() - last_cleanup_success_timestamp_seconds
+histogram_quantile(0.99,
+  sum by (le, endpoint) (
+    rate(http_request_duration_seconds_bucket[5m])
+  )
+)
 ```
 
 </div>
@@ -624,18 +578,115 @@ time() - last_cleanup_success_timestamp_seconds
 
 ::right::
 
-<div class="mt-4 space-y-4 text-sm">
+<div class="mt-10 space-y-3 text-sm">
 
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
-  <span class="text-orange-400 font-semibold">histogram_quantile(0.95)</span> — il 95% delle richieste è più veloce di questo valore. <code>le</code> è il label "less than equal" generato automaticamente dall'Histogram.
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  <span class="text-orange-400 font-semibold">Latenza media</span> = sum / count. Semplice ma può mascherare code lente — preferire i percentili per un'analisi accurata.
+</div>
+
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  <span class="text-orange-400 font-semibold">P95</span> = il 95% delle richieste è più veloce di questo valore. <code>le</code> è il label "less than equal" generato automaticamente dall'Histogram.
+</div>
+
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  Cambiare il primo argomento <code>0.99</code> → <code>0.50</code> per la mediana, <code>0.95</code> per il P95. Aggiungere <code>by (le, endpoint)</code> per separare le route.
+</div>
+
+</div>
+
+---
+layout: two-cols
+layoutClass: gap-6
+---
+
+# Query PromQL — Link
+
+<div class="space-y-3 mt-3 text-sm">
+
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-sky-400 text-xs font-semibold mb-1">Link creati al secondo</div>
+
+```text
+rate(links_created_total[5m])
+```
+
+</div>
+
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-teal-400 text-xs font-semibold mb-1">Redirect al secondo</div>
+
+```text
+rate(links_redirected_total[5m])
+```
+
+</div>
+
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-slate-300 text-xs font-semibold mb-1">Totale link creati dall'avvio</div>
+
+```text
+links_created_total
+```
+
+</div>
+
+</div>
+
+::right::
+
+<div class="mt-10 space-y-3 text-sm">
+
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  <span class="text-sky-400 font-semibold">links_created_total</span> e <span class="text-teal-400 font-semibold">links_redirected_total</span> sono Counter — crescono sempre. Usare <code>rate()</code> per la velocità, il nome nudo per il totale cumulativo.
+</div>
+
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
+  Il rapporto <code>rate(links_redirected_total[5m]) / rate(links_created_total[5m])</code> dà il "redirect rate" — quante volte in media viene usato ogni link creato nell'intervallo.
+</div>
+
+</div>
+
+---
+layout: two-cols
+layoutClass: gap-6
+---
+
+# Query PromQL — Worker di pulizia
+
+<div class="space-y-3 mt-3 text-sm">
+
+<div class="p-3 rounded-lg bg-slate-800/60 border border-green-500/20">
+  <div class="text-green-400 text-xs font-semibold mb-1">Secondi dall'ultimo cleanup riuscito ← la più utile</div>
+
+```text
+time() - last_cleanup_success_timestamp_seconds
+```
+
+  <div class="text-slate-500 text-xs mt-2">Se supera <span class="text-red-400 font-semibold">1800</span> (30 min) il worker non ha girato nei tempi previsti.</div>
+</div>
+
+<div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+  <div class="text-slate-300 text-xs font-semibold mb-1">Timestamp dell'ultimo cleanup (raw)</div>
+
+```text
+last_cleanup_success_timestamp_seconds
+```
+
+</div>
+
+</div>
+
+::right::
+
+<div class="mt-10 space-y-4 text-sm">
+
+<div v-click.fade.up.scale class="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-slate-300 text-xs">
+  <div class="text-green-400 font-semibold mb-2">Perché è importante</div>
+  Il cleanup rimuove i link scaduti ogni <code>CLEANUP_INTERVAL_MINUTES</code> (default 10 min). Se il Gauge smette di aggiornarsi, significa che il thread <code>BackgroundScheduler</code> si è bloccato silenziosamente — senza questa metrica l'anomalia sarebbe invisibile.
 </div>
 
 <div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400 text-xs">
-  <span class="text-teal-400 font-semibold">Redirect rate</span> — quante volte in media viene usato ogni link creato nell'intervallo. Misura l'utilità reale dei link.
-</div>
-
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-slate-400 text-xs">
-  <span class="text-green-400 font-semibold">Deadman Switch</span> — se il valore supera <span class="text-red-400 font-semibold">1800s</span> (30 min) il worker di cleanup si è bloccato silenziosamente. Senza questa metrica l'anomalia sarebbe invisibile.
+  <span class="text-teal-400 font-semibold">Pattern Deadman Switch:</span> <code>time() - gauge</code> misura quanto tempo è passato dall'ultimo "battito". È il modo standard per rilevare job o worker che smettono di girare.
 </div>
 
 </div>
@@ -822,7 +873,7 @@ jobs:
     <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">Nessun SSH in ingresso</span>
   </div>
-  <div class="text-slate-400 text-xs">Il runner contatta GitHub outbound — inverte il trust boundary. Il firewall richiede solo HTTPS in uscita, già sempre aperto.</div>
+  <div class="text-slate-400 text-xs">Il runner contatta GitHub outbound — funziona dietro NAT e firewall</div>
 </div>
 
 <div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
@@ -1041,6 +1092,12 @@ class: text-center
 <div class="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-400">
   Grazie per l'attenzione
 </div>
+
+<!-- <p class="text-slate-400 text-xl">Grazie per l'attenzione</p>
+
+<div class="mt-2 text-sm text-slate-500 font-mono">
+  github.com/StefanoVidesott/link_shortner-fas
+</div> -->
 
 <div class="mt-6 grid grid-cols-3 gap-4 text-xs mx-auto">
   <div class="p-3 rounded-lg border border-slate-700 bg-slate-800/40 text-center">
