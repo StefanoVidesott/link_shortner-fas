@@ -1,0 +1,66 @@
+# To execute this playbook, please run the following command in the shell as
+# regular user:
+# $ ansible-playbook -i inventory.ini playbook.yml --ask-become-pass
+
+- name: Set up and run Docker
+  hosts: local
+  connection: local
+  # Note: These variables resolve the problem of the privilege escalation gone
+  # wrong
+  become: true
+  become_method: sudo
+  vars:
+    repo_basedir: "{{ playbook_dir }}/../.."
+    env_filepath: "{{ repo_basedir }}/.env"
+  tasks:
+    - name: Check if .env exists
+      ansible.builtin.stat:
+        path: "{{ env_filepath }}"
+      register: env_file
+
+    - name: Fail on missing .env file
+      # Throw ansible error on missing file
+      ansible.builtin.fail:
+        msg: "{{ env_filepath }} does not exist"
+      failed_when: not env_file.stat.exists
+
+    - name: Install the necessary dependencies
+      # Invoke the packages manager automatically, distro agnostic
+      ansible.builtin.package:
+        name:
+          - docker
+          - docker-buildx
+          - docker-compose
+        state: present
+
+# Docker management
+
+    - name: Add current user to 'docker' group
+      ansible.builtin.user:
+        name: "{{ ansible_facts['env']['USER'] }}"
+        groups: docker
+        append: true
+
+    - name: Detect init system
+      ansible.builtin.command: ps -p 1 -o comm=
+      register: init_system
+      changed_when: false
+
+    - name: Start Docker (runit)
+      ansible.builtin.command:
+        cmd: sv start docker
+      when: "'runit' in init_system.stdout"
+
+    - name: Start Docker (generic)
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+      when: "'runit' not in init_system.stdout"
+
+  # Running Docker
+
+    - name: Bring up Docker and all the containers
+      ansible.builtin.command:
+        chdir: "{{ repo_basedir }}"
+        cmd: docker compose up -d --remove-orphans
