@@ -368,7 +368,7 @@ def admin_delete_link(short_code):
 
 
 # HTTP helpers for admin simulations
-_SELF = "http://127.0.0.1:5001"
+_SELF = "http://127.0.0.1:5000"
 
 # Opener that does NOT follow redirects (needed for /<code> which returns 302)
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
