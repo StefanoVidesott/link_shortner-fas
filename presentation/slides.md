@@ -453,42 +453,6 @@ scrape_configs:
 
 ---
 
-# Label e Cardinalità
-
-<div class="grid grid-cols-2 gap-6 mt-4">
-
-<div>
-
-<div v-click.fade.up.scale class="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-sm mb-4">
-  <div class="text-green-400 font-semibold mb-2">✓ Label a bassa cardinalità — corretto</div>
-  <div class="text-slate-400 text-xs mb-2">Pochi valori possibili, serie temporali contenute:</div>
-  <code class="text-green-300 text-xs">method="GET"|"POST"<br>http_status="200"|"404"|"500"<br>endpoint="/shorten"|"/health"</code>
-</div>
-
-<div v-click.fade.up.scale class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-sm">
-  <div class="text-red-400 font-semibold mb-2">✗ Label ad alta cardinalità — pericoloso</div>
-  <div class="text-slate-400 text-xs mb-2">Valori illimitati, esplosione di serie temporali:</div>
-  <code class="text-red-300 text-xs">user_id="1234"|"5678"|…<br>short_code="aB3xYz"|…<br>ip_address="1.2.3.4"|…</code>
-</div>
-
-</div>
-
-<div class="space-y-4 text-sm">
-
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/60 border border-slate-700 text-slate-400 text-xs">
-  <span class="text-sky-400 font-semibold">Perché è un problema:</span> ogni combinazione unica di label crea una serie temporale separata in Prometheus. Con <code>user_id</code> come label e 100k utenti, una sola metrica genera 100k serie — memoria e query diventano proibitive.
-</div>
-
-<div v-click.fade.up.scale class="p-4 rounded-lg bg-slate-800/60 border border-slate-700 text-slate-400 text-xs">
-  <span class="text-yellow-400 font-semibold">La stessa regola vale per Loki:</span> i label indicizzati devono essere a bassa cardinalità (<code>level</code>, <code>job</code>). Dati ad alta cardinalità come <code>path</code> o <code>user_id</code> rimangono come metadata JSON non indicizzato, ricercabile con <code>| json</code>.
-</div>
-
-</div>
-
-</div>
-
----
-
 # Dashboard Grafana
 
 <div class="grid grid-cols-3 gap-3 mt-4 text-sm">
