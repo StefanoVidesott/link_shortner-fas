@@ -14,7 +14,7 @@ from functools import wraps
 import mysql.connector
 from flask import (
     Flask, request, jsonify, redirect, g,
-    render_template, session, url_for, flash,
+    render_template, session, url_for, flash, abort,
 )
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
 from pythonjsonlogger import jsonlogger
@@ -174,6 +174,11 @@ def _after(response):
 
 # Public routes
 
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html"), 404
+
+
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -228,9 +233,9 @@ def redirect_link(short_code):
     cur.close()
 
     if not row:
-        return jsonify({"error": "not found"}), 404
+        abort(404)
     if row["expires_at"] and row["expires_at"] < datetime.utcnow():
-        return jsonify({"error": "link expired"}), 410
+        abort(404)
 
     cur2 = db.cursor()
     cur2.execute(
