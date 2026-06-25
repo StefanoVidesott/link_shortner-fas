@@ -14,8 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # .env lives at a stable path on the server, outside the runner workspace.
-      # Ansible creates it at /home/deploy/link_shortner-fas/.env on first run.
       - name: Copy .env into workspace
         run: cp /home/deploy/link_shortner-fas/.env .env
 

@@ -3,7 +3,7 @@ theme: default
 title: Link Shortener — FAS UniTN
 info: |
   Progetto 2 — Fondamenti di Amministrazione di Sistema
-  Università di Trento, A.A. 2025/2026
+  Università di Trento, 25 Giugno 2026
 colorSchema: dark
 transition: slide-left
 drawings:
@@ -18,7 +18,7 @@ class: text-center
   <span class="opacity-40">·</span>
   <span>Fondamenti di Amministrazione di Sistema</span>
   <span class="opacity-40">·</span>
-  <span>A.A. 2025/2026</span>
+  <span>25 Giugno 2026</span>
 </div>
 
 <h1 class="text-6xl font-bold leading-tight !mt-2">
@@ -56,7 +56,7 @@ transition: fade-out
 
 <div class="space-y-3">
 
-<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">01</span>
   <div>
     <div class="font-semibold text-slate-200">Il Progetto</div>
@@ -64,7 +64,7 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">02</span>
   <div>
     <div class="font-semibold text-slate-200">Stack & Architettura</div>
@@ -72,7 +72,7 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">03</span>
   <div>
     <div class="font-semibold text-slate-200">Osservabilità</div>
@@ -80,7 +80,7 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-sky-400 font-mono text-sm mt-0.5 shrink-0">04</span>
   <div>
     <div class="font-semibold text-slate-200">CI/CD & Deployment</div>
@@ -92,7 +92,7 @@ transition: fade-out
 
 <div class="space-y-3">
 
-<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-teal-400 font-mono text-sm mt-0.5 shrink-0">05</span>
   <div>
     <div class="font-semibold text-slate-200">Demo Live</div>
@@ -100,7 +100,7 @@ transition: fade-out
   </div>
 </div>
 
-<div v-click.fade.up.scale class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/60 border border-slate-700">
   <span class="text-teal-400 font-mono text-sm mt-0.5 shrink-0">06</span>
   <div>
     <div class="font-semibold text-slate-200">Conclusione</div>
@@ -609,7 +609,7 @@ layout: two-cols
 layoutClass: gap-8
 ---
 
-# Log Strutturati — Loki
+# Log Strutturati
 
 ### Pipeline di Log
 
@@ -620,7 +620,7 @@ layoutClass: gap-8
   <div class="text-sky-300 pl-4">Promtail</div>
   <div class="pl-6 text-xs text-slate-500">Docker socket discovery</div>
   <div class="pl-6 text-xs text-slate-500">JSON pipeline stages</div>
-  <div class="pl-6 text-xs text-slate-500">Drop /health 200</div>
+  <div class="pl-6 text-xs text-slate-500">Drop /health /metrics 200</div>
   <div class="pl-4 text-slate-600">│</div>
   <div class="pl-4 text-slate-600">▼</div>
   <div class="text-green-300 pl-4">Loki <span class="text-slate-500 text-xs">(31gg retention)</span></div>
@@ -629,15 +629,11 @@ layoutClass: gap-8
   <div class="text-yellow-300 pl-4">Grafana <span class="text-slate-500 text-xs">(LogQL)</span></div>
 </div>
 
-<div v-click.fade.scale class="mt-5 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs">
-  <div class="text-green-400 font-semibold mb-1">Label indicizzato</div>
-  <code class="text-slate-300">level</code> → <code class="text-green-300">INFO / WARNING / ERROR</code>
-  <div class="text-slate-500 mt-1">Alta cardinalità (method, path) rimane come metadata JSON, non label</div>
-</div>
-
 ::right::
 
-### Log JSON da Flask
+
+<div v-click.fade.up.scale>
+<h3>Log JSON da Flask</h3>
 
 ```python
 # python-json-logger — ogni request loggata
@@ -648,8 +644,17 @@ _handler.setFormatter(
     )
 )
 ```
+</div>
 
-### Query LogQL in Grafana
+<div class="mb-10">
+<div v-click.fade.up.scale class="mt-5 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs">
+  <div class="text-green-400 font-semibold mb-1">Label indicizzato</div>
+  <code class="text-slate-300">level</code> → <code class="text-green-300">INFO / WARNING / ERROR</code>
+  <!-- <div class="text-slate-500 mt-1">Alta cardinalità (method, path) rimane come metadata JSON, non label</div> -->
+</div>
+</div>
+
+<!-- ### Query LogQL in Grafana
 
 ```text
 # Tutti gli errori Flask
@@ -660,11 +665,11 @@ _handler.setFormatter(
 
 # Richieste a un endpoint specifico
 {job="flask"} | json | path="/shorten"
-```
+``` -->
 
-<div v-click.fade.up.scale class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs text-slate-400">
-  <span class="text-sky-400 font-semibold">Health check filtrati:</span> i log
-  <code>GET /health 200</code> scartati da Promtail — già coperti da Prometheus <code>/metrics</code>.
+<div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-xs text-slate-400">
+  <span class="text-sky-400 font-semibold">Log filtrati:</span> i <code>GET /health 200</code> e <code>GET /metrics 200</code> vengono scartati da Promtail (già coperti da Prometheus)
+   <!-- <code>/metrics</code>. -->
 </div>
 
 ---
@@ -691,7 +696,7 @@ if _sentry_dsn:
     )
 ```
 
-<div v-click.fade.up.scale class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-sm text-slate-400">
+<div class="mt-4 p-3 rounded-lg bg-slate-800/60 border border-slate-700 text-sm text-slate-400">
   Attivo solo se <code class="text-orange-300">SENTRY_DSN</code> è impostato in
   <code>.env</code>. Disabilitabile senza modificare il codice.
 </div>
@@ -732,7 +737,7 @@ layoutClass: gap-8
 
 # GitHub Actions — CI/CD
 
-```yaml {all|5|7-9|11-12|14-15|17-18} {lines: true}
+```yaml {all|2-5|all|7-24|8-10|12-24|13|15-16|18-21|23-24|all} {lines: true}
 name: Deploy
 on:
   push:
@@ -756,7 +761,7 @@ jobs:
           docker compose up -d --remove-orphans
 
       - name: Health check
-        run: curl -sf http://localhost:5000/health
+        run: curl -sf http://localhost:5001/health
 ```
 
 ::right::
@@ -778,7 +783,7 @@ jobs:
     <span class="w-2 h-2 rounded-full bg-sky-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">Registrazione via GitHub API</span>
   </div>
-  <div class="text-slate-400 text-xs">Token ottenuto automaticamente dal PAT in <code>vars.yml</code> durante il Play 3 di Ansible</div>
+  <div class="text-slate-400 text-xs">Token ottenuto durante il Play 3 di Ansible</div>
 </div>
 
 <div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
@@ -786,7 +791,7 @@ jobs:
     <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
     <span class="text-slate-200 font-semibold">Nessun SSH in ingresso</span>
   </div>
-  <div class="text-slate-400 text-xs">Il runner contatta GitHub outbound — inverte il trust boundary. Il firewall richiede solo HTTPS in uscita, già sempre aperto.</div>
+  <div class="text-slate-400 text-xs">Il runner contatta GitHub outbound.</div>
 </div>
 
 <div v-click.fade.up.scale class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
@@ -955,7 +960,7 @@ class: text-center
   </div>
 </div>
 
----
+<!-- ---
 layout: center
 class: text-center
 ---
@@ -998,7 +1003,7 @@ class: text-center
   <span class="px-3 py-1.5 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300 text-xs font-mono">Sentry</span>
   <span class="px-3 py-1.5 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300 text-xs font-mono">GitHub Actions</span>
   <span class="px-3 py-1.5 rounded-full bg-slate-700/60 border border-slate-600 text-slate-300 text-xs font-mono">Ansible · Arch Linux</span>
-</div>
+</div> -->
 
 ---
 layout: center
