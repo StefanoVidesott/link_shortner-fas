@@ -40,7 +40,10 @@ scrape_configs:
       # Promote level as an indexed label (low cardinality)
       - labels:
           level:
-      # Drop /health 200 to reduce noise (metrics already cover uptime)
+      # Drop high-frequency automated 200s — data already captured in Prometheus
       - drop:
           expression: '.*"path": "/health".*"status_code": "200".*'
           drop_counter_reason: health_check
+      - drop:
+          expression: '.*"path": "/metrics".*"status_code": "200".*'
+          drop_counter_reason: metrics_scrape
