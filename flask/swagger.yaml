@@ -1,0 +1,168 @@
+swagger: "2.0"
+info:
+  title: FAS Link Shortener API
+  description: |
+    URL shortening service with observability instrumentation.
+    Built with Flask, Prometheus, Loki, and Grafana.
+  version: "1.0.0"
+basePath: "/"
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+tags:
+  - name: links
+    description: Link creation and redirection
+  - name: monitoring
+    description: Health and metrics endpoints
+
+paths:
+  /shorten:
+    post:
+      tags:
+        - links
+      summary: Create a short link
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - url
+            properties:
+              url:
+                type: string
+                example: "https://www.example.com/very/long/path"
+                description: URL to shorten
+              is_fake:
+                type: boolean
+                default: false
+                description: Mark as synthetic/test data
+      responses:
+        201:
+          description: Link created
+          schema:
+            type: object
+            properties:
+              short_url:
+                type: string
+                example: "http://localhost:5001/aB3xYz"
+              short_code:
+                type: string
+                example: "aB3xYz"
+        400:
+          description: Missing or invalid URL
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: Could not generate unique short code
+          schema:
+            $ref: "#/definitions/Error"
+
+  /{short_code}:
+    get:
+      tags:
+        - links
+      summary: Redirect to original URL
+      parameters:
+        - in: path
+          name: short_code
+          required: true
+          type: string
+          example: aB3xYz
+      responses:
+        302:
+          description: Redirect to original URL
+        404:
+          description: Short code not found
+          schema:
+            $ref: "#/definitions/Error"
+        410:
+          description: Link has expired
+          schema:
+            $ref: "#/definitions/Error"
+
+  /stats/{short_code}:
+    get:
+      tags:
+        - links
+      summary: Get link statistics
+      parameters:
+        - in: path
+          name: short_code
+          required: true
+          type: string
+          example: aB3xYz
+      responses:
+        200:
+          description: Link statistics
+          schema:
+            type: object
+            properties:
+              short_code:
+                type: string
+                example: "aB3xYz"
+              original_url:
+                type: string
+                example: "https://www.example.com/very/long/path"
+              clicks:
+                type: integer
+                example: 42
+              created_at:
+                type: string
+                format: date-time
+                example: "2026-06-25T10:00:00"
+              expires_at:
+                type: string
+                format: date-time
+                example: "2026-07-25T10:00:00"
+        404:
+          description: Short code not found
+          schema:
+            $ref: "#/definitions/Error"
+
+  /health:
+    get:
+      tags:
+        - monitoring
+      summary: Health check
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Application health status
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [ok, degraded]
+                example: "ok"
+              db:
+                type: string
+                enum: [ok, error]
+                example: "ok"
+
+  /metrics:
+    get:
+      tags:
+        - monitoring
+      summary: Prometheus metrics
+      produces:
+        - text/plain
+      responses:
+        200:
+          description: Prometheus exposition format metrics
+
+definitions:
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+        example: "not found"

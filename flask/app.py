@@ -19,6 +19,7 @@ from flask import (
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
 from pythonjsonlogger import jsonlogger
 from apscheduler.schedulers.background import BackgroundScheduler
+from flasgger import Swagger
 
 # Sentry
 _sentry_dsn = os.environ.get("SENTRY_DSN")
@@ -32,6 +33,7 @@ if _sentry_dsn:
     )
 
 app = Flask(__name__)
+Swagger(app, template_filename="swagger.yaml")
 
 # JSON logging
 _handler = logging.StreamHandler()
